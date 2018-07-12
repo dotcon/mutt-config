@@ -1,0 +1,37 @@
+# Paths ----------------------------------------------
+set my_mutt_conf_dir  = ~/.mutt
+set my_mutt_cache_dir = ~/.cache/mutt
+
+set mailcap_path      = $my_mutt_conf_dir/mailcap   # entries for filetypes
+
+set folder            = $my_mutt_cache_dir/mail     # mailbox location
+set tmpdir            = $my_mutt_cache_dir/temp     # where to keep temp files
+set header_cache      = $my_mutt_cache_dir/headers  # where to store headers
+set message_cachedir  = $my_mutt_cache_dir/bodies   # where to store bodies
+
+set history_file      = $my_mutt_cache_dir/history
+set save_history      = 2000
+set history           = 200
+
+# Basic Options --------------------------------------
+set rfc2047_parameters = yes
+set sleep_time         = 0
+set wait_key           = no       # shut up, mutt
+set mbox_type          = Maildir  # mailbox type
+set timeout            = 3        # idle time before scanning
+set mail_check         = 0        # minimum time between scans
+unset mark_old                    # don't mark as old mail
+unset move                        # don't move read mail
+unset confirmappend               # don't ask, just do
+set delete                        # don't ask, just do!
+set quit                          # don't ask, just do!!
+set beep_new                      # bell on new mails
+set pipe_decode                   # strip headers and eval mimes when piping
+set thorough_search               # strip headers and eval mimes before searching
+
+source $my_mutt_conf_dir/views
+source $my_mutt_conf_dir/keymaps
+source $my_mutt_conf_dir/themes/kindly
+source "[[ -f ~/.mutt-accounts ]] && cat ~/.mutt-accounts |"
+
+mailboxes $my_mutt_cache_dir/notmuch

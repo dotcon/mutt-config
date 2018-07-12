@@ -1,0 +1,96 @@
+## Theme kindly inspired from
+## http://nongeekshandbook.blogspot.ie/2009/03/mutt-color-configuration.html
+
+## Colours for items in the index
+color index             brightcyan    default ~N
+color index             default       default ~R
+color index             brightred     default ~O
+color index             brightyellow  default ~F
+color index             white         green   ~T
+color index             brightred     default ~D
+mono  index             bold                  ~N
+mono  index             bold                  ~F
+mono  index             bold                  ~T
+mono  index             bold                  ~D
+
+color sidebar_new       green         default
+color sidebar_indicator white         cyan
+color sidebar_divider   default         default
+color sidebar_highlight white         yellow
+color sidebar_flagged   red           default
+#color sidebar_spoolfile 
+
+## Highlights inside the body of a message.
+
+## URLs
+color body brightgreen default "(http|https|file|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+color body brightgreen default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+mono  body bold                "(http|https|file|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+mono  body bold                "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+
+## Email addresses.
+color body brightgreen default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+
+## Header
+color header green      default "^from:"
+color header green      default "^to:"
+color header green      default "^cc:"
+color header green      default "^date:"
+color header yellow     default "^newsgroups:"
+color header yellow     default "^reply-to:"
+color header brightcyan default "^subject:"
+color header red        default "^x-spam-rule:"
+color header green      default "^x-mailer:"
+color header yellow     default "^message-id:"
+color header yellow     default "^Organization:"
+color header yellow     default "^Organisation:"
+color header yellow     default "^User-Agent:"
+color header yellow     default "^message-id: .*pine"
+color header yellow     default "^X-Fnord:"
+color header yellow     default "^X-WebTV-Stationery:"
+color header red        default "^x-spam-rule:"
+color header green      default "^x-mailer:"
+color header yellow     default "^message-id:"
+color header yellow     default "^Organization:"
+color header yellow     default "^Organisation:"
+color header yellow     default "^User-Agent:"
+color header yellow     default "^message-id: .*pine"
+color header yellow     default "^X-Fnord:"
+color header yellow     default "^X-WebTV-Stationery:"
+color header yellow     default "^X-Message-Flag:"
+color header yellow     default "^X-Spam-Status:"
+color header yellow     default "^X-SpamProbe:"
+color header red        default "^X-SpamProbe: SPAM"
+
+## Coloring quoted text - coloring the first 7 levels:
+color quoted  cyan   default
+color quoted1 yellow default
+color quoted2 red    default
+color quoted3 green  default
+color quoted4 cyan   default
+color quoted5 yellow default
+color quoted6 red    default
+color quoted7 green  default
+
+## Default color definitions
+color hdrdefault white         green
+color signature  brightmagenta default
+color indicator  white         cyan
+color attachment black         green
+color error      red           default
+color message    default       default
+color search     brightwhite   magenta
+color status     brightwhite   blue
+color tree       brightblue    default
+color normal     default       default
+color tilde      green         default
+color bold       brightyellow  default
+color underline  magenta       default
+color markers    brightcyan    default
+
+## Colour definitions when on a mono screen
+mono bold      bold
+mono underline underline
+mono indicator reverse
+
+# vim:tw=78:ft=muttrc:ts=4

@@ -1,0 +1,8 @@
+# Images
+image/jpg; ~/.mutt/bin/viewpic.sh %s ; copiousoutput;
+image/jpeg; ~/.mutt/bin/viewpic.sh %s ; copiousoutput;
+image/pjpeg; ~/.mutt/bin/viewpic.sh %s ; copiousoutput;
+image/png; ~/.mutt/bin/viewpic.sh %s ; copiousoutput;
+
+# HTML
+text/html; ~/.mutt/bin/viewhtml.sh %{charset} %s;nametemplate=%s.html; copiousoutput;

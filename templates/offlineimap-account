@@ -1,0 +1,19 @@
+[Account ${config}]
+localrepository = ${config}_local
+remoterepository = ${config}_remote
+autorefresh = 3
+postsynchook = notmuch new
+
+[Repository ${config}_local]
+type = Maildir
+localfolders = $cache/mail/${config}
+
+[Repository ${config}_remote]
+type = IMAP
+remotehost = $recv_host
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+remoteuser = $account
+remotepasseval = '$password'
+maxconnections = 3
+keepalive = 60

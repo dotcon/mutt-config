@@ -1,0 +1,5 @@
+account         $config
+host            $send_host
+from            $account
+user            $account
+password        $password

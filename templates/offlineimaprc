@@ -1,0 +1,5 @@
+[general]
+accounts = $accounts
+maxsyncaccounts = 3
+ui = Basic
+#pythonfile = ~/.offlineimap/offlineimap.py
