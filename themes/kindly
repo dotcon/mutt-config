@@ -6,7 +6,7 @@ color index             brightcyan    default ~N
 color index             default       default ~R
 color index             brightred     default ~O
 color index             brightyellow  default ~F
-color index             white         green   ~T
+color index             brightwhite   green   ~T
 color index             brightred     default ~D
 mono  index             bold                  ~N
 mono  index             bold                  ~F
@@ -14,9 +14,9 @@ mono  index             bold                  ~T
 mono  index             bold                  ~D
 
 color sidebar_new       green         default
-color sidebar_indicator white         cyan
-color sidebar_divider   default         default
-color sidebar_highlight white         yellow
+color sidebar_indicator brightwhite   cyan
+color sidebar_divider   default       default
+color sidebar_highlight brightwhite   yellow
 color sidebar_flagged   red           default
 #color sidebar_spoolfile 
 
@@ -75,7 +75,7 @@ color quoted7 green  default
 ## Default color definitions
 color hdrdefault white         green
 color signature  brightmagenta default
-color indicator  white         cyan
+color indicator  brightwhite   cyan
 color attachment black         green
 color error      red           default
 color message    default       default
