@@ -46,6 +46,7 @@ EOF
         offlineimap_accounts="${offlineimap_accounts//\$account/$account}"
         offlineimap_accounts="${offlineimap_accounts//\$recv_host/$recv_host}"
         offlineimap_accounts="${offlineimap_accounts//\$password/$password}"
+        offlineimap_accounts="${offlineimap_accounts//\$postsynchook/${postsynchook:-$MUTT_GENCONFIG_ABS_DIR/offlineimap-postsynchook.sh}}"
 
         [[ -d $cache/mail/$config ]] || continue
         mutt_accounts+="mailboxes '+$config'\n"

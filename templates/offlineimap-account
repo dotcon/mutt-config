@@ -2,7 +2,7 @@
 localrepository = ${config}_local
 remoterepository = ${config}_remote
 autorefresh = 3
-postsynchook = notmuch new
+postsynchook = $postsynchook
 
 [Repository ${config}_local]
 type = Maildir
