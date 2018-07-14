@@ -60,18 +60,21 @@ EOF
         mutt_accounts="${mutt_accounts//\$realname/$realname}"
     done
 
-    local date=$(date +%Y%m%d)
     local msmtprc="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtprc)\n"
     local offlineimaprc="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/offlineimaprc)\n"
     offlineimaprc="${offlineimaprc//\$accounts/$(IFS=, ; echo "${accounts[*]}")}"
+
+    # backup original config first
+    local date=$(date +%Y%m%d)
+    for cfg in msmtprc offlineimaprc mutt-accounts; do
+        [[ -f $HOME/.$cfg ]] && mv $HOME/.$cfg $HOME/.$cfg-$date
+    done
+
     mutt_warn "Install $HOME/.msmtprc"
-    [[ -f $HOME/.msmtprc ]] && mv $HOME/.msmtprc $HOME/.msmtprc-$date
     echo -e "$msmtprc\n$msmtp_accounts" >$HOME/.msmtprc
     mutt_warn "Install $HOME/.offlineimaprc"
-    [[ -f $HOME/.offlineimaprc ]] && mv $HOME/.offlineimaprc $HOME/.offlineimaprc-$date
     echo -e "$offlineimaprc\n$offlineimap_accounts" >$HOME/.offlineimaprc
     mutt_warn "Install $HOME/.mutt-accounts"
-    [[ -f $HOME/.mutt-accounts ]] && mv $HOME/.mutt-accounts $HOME/.mutt-accounts-$date
     echo -e "$mutt_accounts" >$HOME/.mutt-accounts
 }
 
