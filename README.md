@@ -27,7 +27,7 @@
 > + `offlineimap`: Fetch and download e-mails from remote mail server.
 > + `msmtp`: Send e-mails.
 > + `procmail`: Filter e-mails.
-> + `notmuch`: Search local e-mails.
+> + `notmuch` & `notmuch-mutt`: Search local e-mails.
 > + `abook`: Maintain e-mail addresses and aliases.
 > + `urlview`: Browser url in e-mails.
 > + `aview`: Covert pic to asicii art.
@@ -56,8 +56,6 @@ EOF
 $ ~/.mutt/bin/mutt-genconfig.sh ~/accounts
 $ # download mails
 $ offlineimap
-$ # generate again for adding mailboxes 
-$ ~/.mutt/bin/mutt-genconfig.sh ~/accounts
 ```
 After the above operations, you can type `mutt` to enjoy reading your mails.
 

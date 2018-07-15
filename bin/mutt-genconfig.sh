@@ -49,11 +49,7 @@ EOF
         offlineimap_accounts="${offlineimap_accounts//\$postsynchook/${postsynchook:-$MUTT_GENCONFIG_ABS_DIR/offlineimap-postsynchook.sh}}"
 
         [[ -d $cache/mail/$config ]] || continue
-        mutt_accounts+="mailboxes '+$config'\n"
-        for subdir in $cache/mail/$config/*; do
-            [[ -d "$subdir" ]] || continue
-            mutt_accounts+="mailboxes '+$config/$(basename "$subdir")'\n"
-        done
+        mutt_accounts+="mailboxes \`$MUTT_GENCONFIG_ABS_DIR/find-mailboxes.sh $cache/mail/$config\`\n"
         mutt_accounts+="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/mutt-account)\n\n"
         mutt_accounts="${mutt_accounts//\$config/$config}"
         mutt_accounts="${mutt_accounts//\$account/$account}"
