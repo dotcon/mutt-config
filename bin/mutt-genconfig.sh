@@ -33,27 +33,14 @@ EOF
         accounts+=($config)
 
         source "$cfg"
+        postsynchook="${postsynchook:-$MUTT_GENCONFIG_ABS_DIR/offlineimap-postsynchook.sh}"
         
-        msmtp_accounts+="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtp-account)\n\n"
-        msmtp_accounts="${msmtp_accounts//\$config/$config}"
-        msmtp_accounts="${msmtp_accounts//\$account/$account}"
-        msmtp_accounts="${msmtp_accounts//\$send_host/$send_host}"
-        msmtp_accounts="${msmtp_accounts//\$password/$password}"
-
-        offlineimap_accounts+="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/offlineimap-account)\n\n"
-        offlineimap_accounts="${offlineimap_accounts//\$\{config\}/$config}"
-        offlineimap_accounts="${offlineimap_accounts//\$cache/$cache}"
-        offlineimap_accounts="${offlineimap_accounts//\$account/$account}"
-        offlineimap_accounts="${offlineimap_accounts//\$recv_host/$recv_host}"
-        offlineimap_accounts="${offlineimap_accounts//\$password/$password}"
-        offlineimap_accounts="${offlineimap_accounts//\$postsynchook/${postsynchook:-$MUTT_GENCONFIG_ABS_DIR/offlineimap-postsynchook.sh}}"
+        msmtp_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtp-account)\"")\n\n"
+        offlineimap_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/offlineimap-account)\"")\n\n"
 
         [[ -d $cache/mail/$config ]] || continue
         mutt_accounts+="mailboxes \`$MUTT_GENCONFIG_ABS_DIR/find-mailboxes.sh $cache/mail/$config\`\n"
-        mutt_accounts+="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/mutt-account)\n\n"
-        mutt_accounts="${mutt_accounts//\$config/$config}"
-        mutt_accounts="${mutt_accounts//\$account/$account}"
-        mutt_accounts="${mutt_accounts//\$realname/$realname}"
+        mutt_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/mutt-account)\"")\n\n"
     done
 
     local msmtprc="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtprc)\n"
@@ -67,11 +54,11 @@ EOF
     done
 
     mutt_warn "Install $HOME/.msmtprc"
-    echo -e "$msmtprc\n$msmtp_accounts" >$HOME/.msmtprc
+    echo -en "$msmtprc\n$msmtp_accounts" >$HOME/.msmtprc
     mutt_warn "Install $HOME/.offlineimaprc"
-    echo -e "$offlineimaprc\n$offlineimap_accounts" >$HOME/.offlineimaprc
+    echo -en "$offlineimaprc\n$offlineimap_accounts" >$HOME/.offlineimaprc
     mutt_warn "Install $HOME/.mutt-accounts"
-    echo -e "$mutt_accounts" >$HOME/.mutt-accounts
+    echo -en "$mutt_accounts" >$HOME/.mutt-accounts
 }
 
 [[ ${FUNCNAME[0]} == "main" ]] \
