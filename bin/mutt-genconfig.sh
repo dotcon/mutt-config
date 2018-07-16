@@ -25,6 +25,7 @@ EOF
     local msmtp_accounts=""
     local offlineimap_accounts=""
     local mutt_accounts=""
+    local -A notmuch_accounts
     local -a accounts
     [[ -n $cfg_dir && -d $cfg_dir ]] || mutt_die "No such directory: '$cfg_dir'"
     for cfg in "$cfg_dir"/*; do
@@ -37,10 +38,9 @@ EOF
         
         msmtp_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtp-account)\"")\n\n"
         offlineimap_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/offlineimap-account)\"")\n\n"
-
-        [[ -d $cache/mail/$config ]] || continue
         mutt_accounts+="mailboxes \`$MUTT_GENCONFIG_ABS_DIR/find-mailboxes.sh $cache/mail/$config\`\n"
         mutt_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/mutt-account)\"")\n\n"
+        notmuch_accounts[$config]="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/notmuch-account)\"")"
     done
 
     local msmtprc="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtprc)\n"
@@ -59,6 +59,12 @@ EOF
     echo -en "$offlineimaprc\n$offlineimap_accounts" >$HOME/.offlineimaprc
     mutt_warn "Install $HOME/.mutt-accounts"
     echo -en "$mutt_accounts" >$HOME/.mutt-accounts
+
+    for ac in "${accounts[@]}"; do
+        [[ -f $HOME/.notmuch-config-$ac ]] && mv $HOME/.notmuch-config-$ac $HOME/.notmuch-config-$ac-$date
+        mutt_warn "Install $HOME/.notmuch-config-$ac"
+        echo -e "${notmuch_accounts[$ac]}" >$HOME/.notmuch-config-$ac
+    done
 }
 
 [[ ${FUNCNAME[0]} == "main" ]] \

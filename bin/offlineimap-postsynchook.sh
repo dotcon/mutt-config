@@ -9,7 +9,8 @@ declare -r OFFLINEIMAP_POSTSYNCHOOK_ABS_SRC="$(realpath "${BASH_SOURCE[0]}")"
 declare -r OFFLINEIMAP_POSTSYNCHOOK_ABS_DIR="$(dirname "$OFFLINEIMAP_POSTSYNCHOOK_ABS_SRC")"
 
 offlineimap_postsynchook() {
-    hash notmuch &>/dev/null && notmuch new
+    [[ -n $1 ]] || return 1
+    hash notmuch &>/dev/null && notmuch --config="$HOME/.notmuch-config-$1" new
     # hash procmail &>/dev/null && procmail
 }
 
