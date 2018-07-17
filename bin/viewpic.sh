@@ -19,7 +19,8 @@ This program is released under the terms of MIT License.
 EOF
 )
     local file="$1"
-    hash convert &>/dev/null && hash aview &>/dev/null || return 1
+    hash convert &>/dev/null && hash aview &>/dev/null \
+        || { echo "You must install 'aview' if you want to view pics in ascii."; return 1; }
 
     convert -colorspace gray $file $$.pgm
     echo q | aview -driver stdout -kbddriver stdin -contrast 32 $$.pgm | sed -n '27,+24p'

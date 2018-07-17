@@ -21,7 +21,8 @@ EOF
     local char=$1
     local file=$2
 
-    hash lynx &>/dev/null && hash w3m &>/dev/null || return 1
+    hash lynx &>/dev/null && hash w3m &>/dev/null \
+        || { echo "You must install 'lynx' and 'w3m' if you want to read HTML emails."; return 1; }
 
     if [[ $char =~ [gG][bB]* ]]; then
         w3m -I $char -T text/html $file
