@@ -24,6 +24,15 @@ EOF
     "$cmd" "$@"
 }
 
+notmuch-mutt() {
+    local dir="$2"
+    [[ -d $dir ]] || mkdir -p "$dir"
+    local notmuch_mutt="$(which notmuch-mutt 2>/dev/null)"
+    [[ -n $notmuch_mutt ]] || return 1
+
+    "$notmuch_mutt" "$@"
+}
+
 [[ ${FUNCNAME[0]} == "main" ]] \
     && run "$@"
 
