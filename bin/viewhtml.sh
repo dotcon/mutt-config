@@ -1,6 +1,36 @@
 #!/usr/bin/env bash
-Char=$1
-File=$2
+# Copyright (c) 2018 Herbert Shen <ishbguy@hotmail.com> All Rights Reserved.
+# Released under the terms of the MIT License.
 
-[[ $Char =~ [gG][bB]* ]] && w3m -I $Char -T text/html $File \
-    || lynx -assume_charset=$Char -display_charset=utf-8 -dump $File
+# source guard
+[[ $VIEWHTML_SOURCED -eq 1 ]] && return
+declare -r VIEWHTML_SOURCED=1
+declare -r VIEWHTML_ABS_SRC="$(realpath "${BASH_SOURCE[0]}")"
+declare -r VIEWHTML_ABS_DIR="$(dirname "$VIEWHTML_ABS_SRC")"
+
+viewhtml() {
+    local PRONAME=viewhtml
+    local VERSION="v0.0.1"
+    local HELP=$(cat <<EOF
+$PRONAME $VERSION
+$PRONAME <char-set> <file>
+
+This program is released under the terms of MIT License.
+EOF
+)
+    local char=$1
+    local file=$2
+
+    hash lynx &>/dev/null && hash w3m &>/dev/null || return 1
+
+    if [[ $char =~ [gG][bB]* ]]; then
+        w3m -I $char -T text/html $file
+    else
+        lynx -assume_charset=$char -display_charset=utf-8 -dump $file
+    fi
+}
+
+[[ ${FUNCNAME[0]} == "main" ]] \
+    && viewhtml "$@"
+
+# vim:set ft=sh ts=4 sw=4:
