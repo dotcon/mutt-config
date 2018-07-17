@@ -2,6 +2,8 @@
 set my_mutt_conf_dir  = ~/.mutt
 set my_mutt_cache_dir = ~/.cache/mutt
 
+source "$my_mutt_conf_dir/bin/mkdirs.sh $my_mutt_cache_dir mail temp notmuch |"
+
 set mailcap_path      = $my_mutt_conf_dir/mailcap   # entries for filetypes
 
 set folder            = $my_mutt_cache_dir/mail     # mailbox location
