@@ -21,7 +21,7 @@ bind  pager j               next-line
 bind  pager k               previous-line
 bind  pager gg              top
 bind  pager G               bottom
-macro pager \cU             "<pipe-message>urlview<enter>" 'Follow links with urlview'
+macro pager \cU             "<pipe-message>$HOME/.mutt/bin/run.sh urlview<enter>" 'Follow links with urlview'
 
 bind  index,pager A         group-reply
 bind  index,pager \;n       next-unread
@@ -40,7 +40,7 @@ bind  index,pager <right>   sidebar-open
 macro index,pager \cV       ":toggle sidebar_visible<enter>"
 macro index,pager C         "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index,pager M         "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
-macro index,pager a         "<pipe-message>abook --add-email-quiet<return>" "Add this sender to Abook"
+macro index,pager a         "<pipe-message>$HOME/.mutt/bin/run.sh abook --add-email-quiet<return>" "Add this sender to Abook"
 
 bind editor <Tab>           complete-query
 bind editor \cT             complete
@@ -48,7 +48,7 @@ bind editor \cT             complete
 # notmuch --------------------------------------------
 macro  index                <F5> \
 "<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\
-<shell-escape>notmuch-mutt -o $my_mutt_cache_dir/notmuch -r --prompt search<enter>\
+<shell-escape>$HOME/.mutt/bin/run.sh notmuch-mutt -o $my_mutt_cache_dir/notmuch -r --prompt search<enter>\
 <change-folder-readonly> $my_mutt_cache_dir/notmuch<enter>\
 <enter-command>set pipe_decode=\$my_old_pipe_decode wait_key=\$my_old_wait_key<enter>" \
       "notmuch: search mail"

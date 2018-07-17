@@ -61,6 +61,6 @@ set forward_quote                    # include message in forwards
 set editor='vim'
 
 # Alias ----------------------------------------------
-set query_command= "abook --mutt-query '%s'"
+set query_command= "$HOME/.mutt/bin/run.sh abook --mutt-query '%s'"
 
 # vim:ft=muttrc:tw=78:ts=4
