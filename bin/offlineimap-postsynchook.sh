@@ -10,8 +10,19 @@ declare -r OFFLINEIMAP_POSTSYNCHOOK_ABS_DIR="$(dirname "$OFFLINEIMAP_POSTSYNCHOO
 
 offlineimap_postsynchook() {
     [[ -n $1 ]] || return 1
-    hash notmuch &>/dev/null && notmuch --config="$HOME/.notmuch-config-$1" new
-    # hash procmail &>/dev/null && procmail
+    local mailbox="$1"
+    local account="$(basename $mailbox)"
+
+    if hash notmuch &>/dev/null && [[ -f $HOME/.notmuch-config-$account ]]; then
+        notmuch --config="$HOME/.notmuch-config-$account" new
+    fi
+
+    if hash procmail &>/dev/null && [[ -f $HOME/.procmailrc-$account ]]; then
+        local -a news=($(find $mailbox -type f -regex '.*new/.*'))
+        for mail in "${news[@]}"; do
+            procmail -m THIS_MAIL="$(basename $mail)" $HOME/.procmailrc-$account <"$mail"
+        done
+    fi
 }
 
 [[ ${FUNCNAME[0]} == "main" ]] \

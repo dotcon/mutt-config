@@ -1,0 +1,14 @@
+SHELL=/usr/bin/bash
+PATH=\$HOME/bin:/usr/bin:/bin:/usr/local/bin
+ORGMAIL=$cache/mail/$config
+MAILDIR=$cache/mail/$config
+SENDMAIL=/usr/bin/msmtp
+SENDMAILFLAGS=\"-a $config\"
+LOGFILE=\$HOME/.procmailrc-$config.log
+VERBOSE=no
+
+# do nothing
+:0 h
+| true
+
+# vim:set ft=procmail ts=4 sw=4:

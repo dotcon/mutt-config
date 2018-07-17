@@ -26,6 +26,7 @@ EOF
     local offlineimap_accounts=""
     local mutt_accounts=""
     local -A notmuch_accounts
+    local -A procmail_accounts
     local -a accounts
     [[ -n $cfg_dir && -d $cfg_dir ]] || mutt_die "No such directory: '$cfg_dir'"
     for cfg in "$cfg_dir"/*; do
@@ -41,6 +42,7 @@ EOF
         mutt_accounts+="mailboxes \`$MUTT_GENCONFIG_ABS_DIR/find-mailboxes.sh $cache/mail/$config\`\n"
         mutt_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/mutt-account)\"")\n\n"
         notmuch_accounts[$config]="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/notmuch-account)\"")"
+        procmail_accounts[$config]="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/procmail-account)\"")"
     done
 
     local msmtprc="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtprc)\n"
@@ -64,6 +66,9 @@ EOF
         [[ -f $HOME/.notmuch-config-$ac ]] && mv $HOME/.notmuch-config-$ac $HOME/.notmuch-config-$ac-$date
         mutt_warn "Install $HOME/.notmuch-config-$ac"
         echo -e "${notmuch_accounts[$ac]}" >$HOME/.notmuch-config-$ac
+        [[ -f $HOME/.procmailrc-$ac ]] && mv $HOME/.procmailrc-$ac $HOME/.procmailrc-$ac-$date
+        mutt_warn "Install $HOME/.procmailrc-$ac"
+        echo -e "${procmail_accounts[$ac]}" >$HOME/.procmailrc-$ac
     done
 }
 
