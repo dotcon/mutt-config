@@ -16,7 +16,7 @@ mutt_genconfig() {
     local VERSION="v0.0.1"
     local HELP=$(cat <<EOF
 $PRONAME $VERSION
-$PRONAME <config-dir>
+$PRONAME <configs>
 
 This program is released under the terms of MIT License.
 EOF
@@ -28,12 +28,21 @@ EOF
     local -A notmuch_accounts
     local -A procmail_accounts
     local -a accounts
-    [[ -n $cfg_dir && -d $cfg_dir ]] || mutt_die "No such directory: '$cfg_dir'"
-    for cfg in "$cfg_dir"/*; do
-        [[ -f $cfg ]] || continue
+    local -a cfg_files
 
+    for cfg in "$@"; do
+        if [[ -d $cfg ]]; then
+            for f in $cfg/* ; do
+                [[ -f $f && $f =~ \.ac$ ]] && cfg_files+=($f)
+            done
+        fi
+        [[ -f $cfg && $cfg =~ \.ac$ ]] && cfg_files+=($cfg)
+    done
+    [[ ${#cfg_files[@]} -gt 0 ]] || mutt_die "No config file found."
+
+    for cfg in "${cfg_files[@]}"; do
         # reset necessary options
-        local config="$(basename $cfg)"
+        local config="$(basename $cfg .ac)"
         local realname=
         local account=
         local recv_host=
