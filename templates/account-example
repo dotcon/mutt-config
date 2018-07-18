@@ -1,0 +1,19 @@
+# necessary options
+realname="Your Realname"
+account=you@example.com
+recv_host=imap.example.com
+send_host=smtp.example.com
+password=YourPassword
+cache=~/.cache/mutt
+
+# alternative options
+# send_port=465
+# send_tls=on
+# send_tls_starttls=on
+# send_tls_certcheck=on
+# send_tls_trust_file=/etc/ssl/certs/ca-certificates.crt
+# recv_port=993
+# recv_hook=/path/to/hook-tool
+# recv_ssl=yes
+# recv_ssl_trust_file=/etc/ssl/certs/ca-certificates.crt
+# recv_ssl_fingerprint=XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX
