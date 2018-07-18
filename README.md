@@ -44,16 +44,16 @@ $ git clone https://github.com/ishbguy/mutt-config ~/.mutt
 + Add email config and generate `offlineimap`, `msmtp` and `mutt-accounts` configurations:
 
 ```bash
-$ mkdir ~/accounts
-$ cat <<EOF >~/accounts/xmail
+$ # config file name  must end with .ac
+$ cat <<EOF >~/example.ac
 realname="your realname"
-account=yourname@xmail.com
-recv_host=imap.xmail.com
-send_host=smtp.xmail.com
+account=yourname@example.com
+recv_host=imap.example.com
+send_host=smtp.example.com
 password=your-password
 cache=~/.cache/mutt
 EOF
-$ ~/.mutt/bin/mutt-genconfig.sh ~/accounts
+$ ~/.mutt/bin/mutt-genconfig.sh ~/example.ac
 $ # download mails
 $ offlineimap
 ```
