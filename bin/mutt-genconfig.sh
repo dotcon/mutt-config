@@ -31,14 +31,57 @@ EOF
     [[ -n $cfg_dir && -d $cfg_dir ]] || mutt_die "No such directory: '$cfg_dir'"
     for cfg in "$cfg_dir"/*; do
         [[ -f $cfg ]] || continue
+
+        # reset necessary options
         local config="$(basename $cfg)"
+        local realname=
+        local account=
+        local recv_host=
+        local send_host=
+        local password=
+
+        # reset alternative options
+        local cache=~/.cache/mutt
+        local send_port=
+        local send_tls=
+        local send_tls_starttls=
+        local send_tls_certcheck=
+        local send_tls_trust_file=
+        local recv_port=
+        local recv_hook=
+        local recv_ssl=
+        local recv_ssl_trust_file=
+        local recv_ssl_fingerprint=
+
         accounts+=($config)
 
         source "$cfg"
-        postsynchook="${postsynchook:-$MUTT_GENCONFIG_ABS_DIR/offlineimap-postsynchook.sh}"
         
-        msmtp_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtp-account)\"")\n\n"
-        offlineimap_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/offlineimap-account)\"")\n\n"
+        msmtp_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtp-account)\"")\n"
+        [[ -n $send_port ]] && msmtp_accounts+="port $send_port\n"
+        [[ $send_tls == off ]] && msmtp_accounts+="tls off\ntls_trust_file\n"
+        [[ $send_tls_starttls == off ]] \
+            && msmtp_accounts+="tls_starttls off\n"
+        [[ $send_tls_certcheck == off ]] \
+            && msmtp_accounts+="tls_certcheck off\ntls_trust_file\n"
+        [[ -n $send_tls_trust_file ]] && msmtp_accounts+="tls_trust_file $send_tls_trust_file\n"
+        msmtp_accounts+="\n"
+
+        local ssl=yes
+        local sslcacertfile=/etc/ssl/certs/ca-certificates.crt
+        local postsynchook="${recv_hook:-$MUTT_GENCONFIG_ABS_DIR/offlineimap-postsynchook.sh}"
+        [[ $recv_ssl == no ]] && ssl=no
+        offlineimap_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/offlineimap-account)\"")\n"
+        if [[ -n $recv_ssl_fingerprint ]]; then
+            offlineimap_accounts+="cert_fingerprint = $recv_ssl_fingerprint\n"
+        elif [[ -n $recv_ssl_trust_file ]]; then
+            offlineimap_accounts+="sslcacertfile = $recv_ssl_trust_file\n"
+        else
+            offlineimap_accounts+="sslcacertfile = $sslcacertfile\n"
+        fi
+        [[ -n $recv_port ]] && offlineimap_accounts+="remoteport = $recv_port\n"
+        offlineimap_accounts+="\n"
+
         mutt_accounts+="mailboxes \`$MUTT_GENCONFIG_ABS_DIR/find-mailboxes.sh $cache/mail/$config\`\n"
         mutt_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/mutt-account)\"")\n\n"
         notmuch_accounts[$config]="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/notmuch-account)\"")"
@@ -56,9 +99,9 @@ EOF
     done
 
     mutt_warn "Install $HOME/.msmtprc"
-    echo -en "$msmtprc\n$msmtp_accounts" >$HOME/.msmtprc
+    echo -en "$msmtprc\n$msmtp_accounts" >$HOME/.msmtprc && chmod 600 $HOME/.msmtprc
     mutt_warn "Install $HOME/.offlineimaprc"
-    echo -en "$offlineimaprc\n$offlineimap_accounts" >$HOME/.offlineimaprc
+    echo -en "$offlineimaprc\n$offlineimap_accounts" >$HOME/.offlineimaprc && chmod 600 $HOME/.offlineimaprc
     mutt_warn "Install $HOME/.mutt-accounts"
     echo -en "$mutt_accounts" >$HOME/.mutt-accounts
 
