@@ -4,7 +4,6 @@ account=you@example.com
 recv_host=imap.example.com
 send_host=smtp.example.com
 password=YourPassword
-cache=~/.cache/mutt
 
 # alternative options
 # send_port=465

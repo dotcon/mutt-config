@@ -24,6 +24,7 @@ set timeout            = 3        # idle time before scanning
 set mail_check         = 0        # minimum time between scans
 unset mark_old                    # don't mark as old mail
 unset move                        # don't move read mail
+unset record                      # don't save sent mail in local drive
 unset confirmappend               # don't ask, just do
 set delete                        # don't ask, just do!
 set quit                          # don't ask, just do!!

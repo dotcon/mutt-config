@@ -3,7 +3,6 @@ set realname  = \"$realname\"; \\
 set sendmail  = \"/usr/bin/msmtp -a $config\"; \\
 set from      = \"$account\"; \\
 set spoolfile = \"+$config/Inbox\"; \\
-set record    = \"+$config/Sent\"; \\
 set postponed = \"+$config/Drafts\"; \\
 set mbox      = \"+$config/Archive\"; \\
 setenv NOTMUCH_CONFIG \$HOME/.notmuch-config-$config \\
