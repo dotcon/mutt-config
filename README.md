@@ -51,7 +51,6 @@ account=yourname@example.com
 recv_host=imap.example.com
 send_host=smtp.example.com
 password=your-password
-cache=~/.cache/mutt
 EOF
 $ ~/.mutt/bin/mutt-genconfig.sh ~/example.ac
 $ # download mails
