@@ -5,6 +5,8 @@
 [licsvg]: https://img.shields.io/badge/license-MIT-green.svg
 [lic]: https://github.com/ishbguy/mutt-config/blob/master/LICENSE
 
+![mutt-config-screenshot](https://github.com/ishbguy/mutt-config/blob/master/screenshots/mutt-config-screenshot.png)
+
 ## Table of Contents
 
 + [:art: Features](#art-features)
