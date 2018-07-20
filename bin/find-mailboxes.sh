@@ -21,7 +21,7 @@ EOF
     [[ -d $1 ]] || return 1
     local mail_dir="$1"
     local -a boxes
-    boxes=($(find $mail_dir -maxdepth 1 -type d -not -regex '.*\.[^/]*$' -printf '"%p"\n' | sort))
+    boxes=($(find $mail_dir -maxdepth 1 -type d -not -regex '.*/\.[^/]*$' -printf '"%p"\n' | sort))
     echo "${boxes[@]}"
 }
 
