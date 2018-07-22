@@ -6,6 +6,7 @@ send_host=smtp.example.com
 password=YourPassword
 
 # alternative options
+# signature=/path/to/signature.txt
 # send_port=465
 # send_tls=on
 # send_tls_starttls=on

@@ -51,6 +51,8 @@ EOF
 
         # reset alternative options
         local cache=~/.cache/mutt
+        local set_signature='set signature= "$HOME/.mutt/bin/set-signature.sh $from $realname |"'
+        local signature=
         local send_port=
         local send_tls=
         local send_tls_starttls=
@@ -91,6 +93,7 @@ EOF
         [[ -n $recv_port ]] && offlineimap_accounts+="remoteport = $recv_port\n"
         offlineimap_accounts+="\n"
 
+        [[ -n $signature ]] && set_signature="set signature = \"$signature\""
         mutt_accounts+="mailboxes \`$MUTT_GENCONFIG_ABS_DIR/find-mailboxes.sh $cache/mail/$config\`\n"
         mutt_accounts+="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/mutt-account)\"")\n\n"
         notmuch_accounts[$config]="$(eval "echo \"$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/notmuch-account)\"")"
