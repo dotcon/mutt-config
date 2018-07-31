@@ -15,7 +15,7 @@ mono  index             bold                  ~D
 
 color sidebar_new       green         default
 color sidebar_indicator brightwhite   cyan
-color sidebar_divider   default       default
+color sidebar_divider   brightblue    default
 color sidebar_highlight brightwhite   yellow
 color sidebar_flagged   red           default
 #color sidebar_spoolfile 
