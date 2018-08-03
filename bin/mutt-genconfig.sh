@@ -10,6 +10,32 @@ declare -r MUTT_GENCONFIG_ABS_DIR="$(dirname "$MUTT_GENCONFIG_ABS_SRC")"
 
 mutt_die() { echo "$@" >&2; exit 1; }
 mutt_warn() { echo "$@" >&2; return 1;  }
+mutt_filter_config() {
+    local -n __configs="$1"; shift
+    for cfg in "$@"; do
+        if [[ -d $cfg ]]; then
+            for f in $cfg/* ; do
+                [[ -f $f && $f =~ \.ac$ ]] && __configs+=($f)
+            done
+        fi
+        [[ -f $cfg && $cfg =~ \.ac$ ]] && __configs+=($cfg)
+    done
+}
+mutt_backup_config() {
+    local date="$1"; shift
+    for cfg in "$@"; do
+        [[ -f $HOME/.$cfg ]] && mv $HOME/.$cfg $HOME/.$cfg-$date 
+    done
+}
+mutt_install_config() {
+    for cfg in "$@"; do
+        local cfg_var="${cfg//-/_}"
+        if declare -p "$cfg_var" &>/dev/null; then
+            mutt_warn "Install $HOME/.$cfg"
+            eval "echo -e \"\$$cfg_var\" >$HOME/.$cfg"
+        fi
+    done
+}
 
 mutt_genconfig() {
     local PRONAME=mutt-genconfig
@@ -21,26 +47,18 @@ $PRONAME <configs>
 This program is released under the terms of MIT License.
 EOF
 )
-    local cfg_dir="${1%%/}"
     local msmtp_accounts=""
     local offlineimap_accounts=""
     local mutt_accounts=""
     local -A notmuch_accounts
     local -A procmail_accounts
     local -a accounts
-    local -a cfg_files
+    local -a config_files
 
-    for cfg in "$@"; do
-        if [[ -d $cfg ]]; then
-            for f in $cfg/* ; do
-                [[ -f $f && $f =~ \.ac$ ]] && cfg_files+=($f)
-            done
-        fi
-        [[ -f $cfg && $cfg =~ \.ac$ ]] && cfg_files+=($cfg)
-    done
-    [[ ${#cfg_files[@]} -gt 0 ]] || mutt_die "No config file found."
+    mutt_filter_config config_files "$@"
+    [[ ${#config_files[@]} -gt 0 ]] || mutt_die "No config file found."
 
-    for cfg in "${cfg_files[@]}"; do
+    for cfg in "${config_files[@]}"; do
         # reset necessary options
         local config="$(basename $cfg .ac)"
         local realname=
@@ -101,30 +119,20 @@ EOF
     done
 
     local msmtprc="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/msmtprc)\n"
+    msmtprc+="\n$msmtp_accounts"
     local offlineimaprc="$(cat $MUTT_GENCONFIG_ABS_DIR/../templates/offlineimaprc)\n"
     offlineimaprc="${offlineimaprc//\$accounts/$(IFS=, ; echo "${accounts[*]}")}"
+    offlineimaprc+="\n$offlineimap_accounts"
 
-    # backup original config first
     local date=$(date +%Y%m%d)
-    for cfg in msmtprc offlineimaprc mutt-accounts; do
-        [[ -f $HOME/.$cfg ]] && mv $HOME/.$cfg $HOME/.$cfg-$date
-    done
-
-    mutt_warn "Install $HOME/.msmtprc"
-    echo -en "$msmtprc\n$msmtp_accounts" >$HOME/.msmtprc && chmod 600 $HOME/.msmtprc
-    mutt_warn "Install $HOME/.offlineimaprc"
-    echo -en "$offlineimaprc\n$offlineimap_accounts" >$HOME/.offlineimaprc && chmod 600 $HOME/.offlineimaprc
-    mutt_warn "Install $HOME/.mutt-accounts"
-    echo -en "$mutt_accounts" >$HOME/.mutt-accounts
-
+    local -a configs=(msmtprc offlineimaprc mutt-accounts)
     for ac in "${accounts[@]}"; do
-        [[ -f $HOME/.notmuch-config-$ac ]] && mv $HOME/.notmuch-config-$ac $HOME/.notmuch-config-$ac-$date
-        mutt_warn "Install $HOME/.notmuch-config-$ac"
-        echo -e "${notmuch_accounts[$ac]}" >$HOME/.notmuch-config-$ac
-        [[ -f $HOME/.procmailrc-$ac ]] && mv $HOME/.procmailrc-$ac $HOME/.procmailrc-$ac-$date
-        mutt_warn "Install $HOME/.procmailrc-$ac"
-        echo -e "${procmail_accounts[$ac]}" >$HOME/.procmailrc-$ac
+        configs+=("notmuch-config-$ac" "procmailrc-$ac")
+        eval "declare -g notmuch_config_$ac='${notmuch_accounts[$ac]}'"
+        eval "declare -g procmailrc_$ac='${procmail_accounts[$ac]}'"
     done
+    mutt_backup_config "$date" "${configs[@]}"
+    mutt_install_config "${configs[@]}"
 }
 
 [[ ${FUNCNAME[0]} == "main" ]] \
