@@ -133,6 +133,7 @@ EOF
     done
     mutt_backup_config "$date" "${configs[@]}"
     mutt_install_config "${configs[@]}"
+    chmod 600 $HOME/.msmtprc
 }
 
 [[ ${FUNCNAME[0]} == "main" ]] \
