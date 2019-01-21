@@ -136,7 +136,7 @@ EOF
     chmod 600 $HOME/.msmtprc
 }
 
-[[ ${FUNCNAME[0]} == "main" ]] \
+[[ ${FUNCNAME[0]} == "main" || ${FUNCNAME[0]} == '' ]] \
     && mutt_genconfig "$@"
 
 # vim:set ft=sh ts=4 sw=4:

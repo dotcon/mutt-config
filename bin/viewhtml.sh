@@ -31,7 +31,7 @@ EOF
     fi
 }
 
-[[ ${FUNCNAME[0]} == "main" ]] \
+[[ ${FUNCNAME[0]} == "main" || ${FUNCNAME[0]} == '' ]] \
     && viewhtml "$@"
 
 # vim:set ft=sh ts=4 sw=4:

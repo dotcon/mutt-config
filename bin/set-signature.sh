@@ -28,7 +28,7 @@ EOF
     echo "------------------------------------------"
 }
 
-[[ ${FUNCNAME[0]} == "main" ]] \
+[[ ${FUNCNAME[0]} == "main" || ${FUNCNAME[0]} == '' ]] \
     && set_signature "$@"
 
 # vim:set ft=sh ts=4 sw=4:
