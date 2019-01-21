@@ -25,7 +25,7 @@ EOF
     echo "${boxes[@]}"
 }
 
-[[ ${FUNCNAME[0]} == "main" ]] \
+[[ ${FUNCNAME[0]} == "main" || ${FUNCNAME[0]} == '' ]] \
     && find_mailboxes "$@"
 
 # vim:set ft=sh ts=4 sw=4:

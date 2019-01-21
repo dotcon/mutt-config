@@ -27,7 +27,7 @@ EOF
     rm $$.pgm
 }
 
-[[ ${FUNCNAME[0]} == "main" ]] \
+[[ ${FUNCNAME[0]} == "main" || ${FUNCNAME[0]} == '' ]] \
     && viewpic "$@"
 
 # vim:set ft=sh ts=4 sw=4:
