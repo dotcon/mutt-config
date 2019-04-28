@@ -1,10 +1,10 @@
-# Generic
+# Generic -------------------------------------------
 bind  generic gg            first-entry
 bind  generic G             last-entry
 bind  generic \cF           next-page
 bind  generic \cB           previous-page
 
-# Index Key Bindings ---------------------------------
+# Index key bindings ---------------------------------
 bind  index gg              first-entry
 bind  index G               last-entry
 bind  index \;N             next-unread-mailbox
@@ -16,13 +16,14 @@ macro index \;u             "<tag-prefix><set-flag>N"
 macro index \;U             "<tag-pattern>~D<enter><tag-prefix><clear-flag>D<untag-pattern>.<enter>"
 macro index \;t             "<tag-prefix>"
 
-# Pager Key Bindings ---------------------------------
+# Pager key bindings ---------------------------------
 bind  pager j               next-line
 bind  pager k               previous-line
 bind  pager gg              top
 bind  pager G               bottom
 macro pager \cU             "<pipe-message>$HOME/.mutt/bin/run.sh urlview<enter>" 'Follow links with urlview'
 
+# Both index and pager key bindings -----------------
 bind  index,pager A         group-reply
 bind  index,pager \;n       next-unread
 bind  index,pager \;p       previous-unread
@@ -30,7 +31,9 @@ bind  index,pager <space>   next-page
 bind  index,pager \cF       next-page
 bind  index,pager \cB       previous-page
 
-# Sidebar Navigation ---------------------------------
+# Sidebar navigation ---------------------------------
+bind  index,pager \cJ       sidebar-next
+bind  index,pager \cK       sidebar-prev
 bind  index,pager \cL       sidebar-open
 bind  index,pager <tab>     sidebar-next
 bind  index,pager <backtab> sidebar-prev
@@ -42,6 +45,7 @@ macro index,pager C         "<copy-message>?<toggle-mailboxes>" "copy a message 
 macro index,pager M         "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 macro index,pager a         "<pipe-message>$HOME/.mutt/bin/run.sh abook --add-email-quiet<return>" "Add this sender to Abook"
 
+# Editor key bindings -------------------------------
 bind editor <Tab>           complete-query
 bind editor \cT             complete
 
