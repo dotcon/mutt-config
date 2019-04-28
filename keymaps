@@ -32,8 +32,6 @@ bind  index,pager \cF       next-page
 bind  index,pager \cB       previous-page
 
 # Sidebar navigation ---------------------------------
-bind  index,pager \cJ       sidebar-next
-bind  index,pager \cK       sidebar-prev
 bind  index,pager \cL       sidebar-open
 bind  index,pager <tab>     sidebar-next
 bind  index,pager <backtab> sidebar-prev
