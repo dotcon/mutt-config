@@ -20,7 +20,7 @@ offlineimap_postsynchook() {
     if hash procmail &>/dev/null && [[ -f $HOME/.procmailrc-$account ]]; then
         local -a news=($(find $mailbox -type f -regex '.*new/.*'))
         for mail in "${news[@]}"; do
-            procmail -m THIS_MAIL="$(basename $mail)" $HOME/.procmailrc-$account <"$mail"
+            procmail -m THIS_MAIL="$mail" $HOME/.procmailrc-$account <"$mail"
         done
     fi
 }

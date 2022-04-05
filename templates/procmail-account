@@ -9,6 +9,6 @@ VERBOSE=no
 
 # do nothing
 :0 h
-| true
+|
 
 # vim:set ft=procmail ts=4 sw=4:
